@@ -163,8 +163,8 @@ export function NewsDetailPage() {
                     </div>
                 )}
 
-                <div className="p-8 md:p-12">
-                    <h1 className="article-title text-4xl md:text-5xl font-black mb-6 leading-tight text-white">
+                <div className="p-6 md:p-12">
+                    <h1 className="article-title text-3xl md:text-5xl font-black mb-6 leading-tight text-white">
                         {article.title}
                     </h1>
 

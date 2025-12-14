@@ -57,7 +57,7 @@ export function LiveMatchesSection() {
                 {/* Encabezado Sección */}
                 <div className="flex justify-between items-center mb-8">
                     <div>
-                        <h2 className="text-4xl md:text-5xl font-black text-white mb-2 flex items-center gap-3">
+                        <h2 className="text-3xl md:text-5xl font-black text-white mb-2 flex items-center gap-3">
                             <Radio className="w-10 h-10 text-orange-500" />
                             Partidos en Vivo
                         </h2>
@@ -110,10 +110,10 @@ export function LiveMatchesSection() {
                                         {/* Equipos */}
                                         <div className="space-y-4">
                                             {/* Equipo Local */}
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-4">
+                                            <div className="flex flex-wrap items-center justify-between gap-2">
+                                                <div className="flex items-center gap-3">
                                                     {match.homeTeam.logo ? (
-                                                        <div className="w-12 h-12 bg-white/5 rounded-full p-2 flex items-center justify-center">
+                                                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/5 rounded-full p-2 flex items-center justify-center flex-shrink-0">
                                                             <img
                                                                 src={match.homeTeam.logo}
                                                                 alt={match.homeTeam.name}
@@ -121,23 +121,23 @@ export function LiveMatchesSection() {
                                                             />
                                                         </div>
                                                     ) : (
-                                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-sm">
+                                                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-xs sm:text-sm flex-shrink-0">
                                                             {match.homeTeam.name.slice(0, 2).toUpperCase()}
                                                         </div>
                                                     )}
-                                                    <span className="text-white font-semibold text-lg">{match.homeTeam.name}</span>
+                                                    <span className="text-white font-semibold text-base sm:text-lg whitespace-nowrap">{match.homeTeam.name}</span>
                                                 </div>
-                                                <span className="text-3xl font-black text-white tracking-tight">{match.homeTeam.score}</span>
+                                                <span className="text-2xl sm:text-3xl font-black text-white tracking-tight">{match.homeTeam.score}</span>
                                             </div>
 
                                             {/* Divisor */}
                                             <div className="border-t border-white/10"></div>
 
                                             {/* Equipo Visitante */}
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-4">
+                                            <div className="flex flex-wrap items-center justify-between gap-2">
+                                                <div className="flex items-center gap-3">
                                                     {match.awayTeam.logo ? (
-                                                        <div className="w-12 h-12 bg-white/5 rounded-full p-2 flex items-center justify-center">
+                                                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/5 rounded-full p-2 flex items-center justify-center flex-shrink-0">
                                                             <img
                                                                 src={match.awayTeam.logo}
                                                                 alt={match.awayTeam.name}
@@ -145,13 +145,13 @@ export function LiveMatchesSection() {
                                                             />
                                                         </div>
                                                     ) : (
-                                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                                                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-xs sm:text-sm flex-shrink-0">
                                                             {match.awayTeam.name.slice(0, 2).toUpperCase()}
                                                         </div>
                                                     )}
-                                                    <span className="text-white font-semibold text-lg">{match.awayTeam.name}</span>
+                                                    <span className="text-white font-semibold text-base sm:text-lg whitespace-nowrap">{match.awayTeam.name}</span>
                                                 </div>
-                                                <span className="text-3xl font-black text-white tracking-tight">{match.awayTeam.score}</span>
+                                                <span className="text-2xl sm:text-3xl font-black text-white tracking-tight">{match.awayTeam.score}</span>
                                             </div>
                                         </div>
 

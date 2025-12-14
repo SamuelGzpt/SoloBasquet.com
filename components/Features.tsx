@@ -55,6 +55,9 @@ export function Features() {
 
     // Lógica de inclinación 3D de tarjeta solamente (El Halo es Global ahora)
     const onCardMouseMove = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
+        // Disable on touch devices or small screens
+        if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 1024) return;
+
         const card = e.currentTarget;
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -118,7 +121,7 @@ export function Features() {
 
             <div className="container relative z-20 mx-auto max-w-7xl pt-10">
                 <div className="text-center mb-24">
-                    <h2 className="text-5xl md:text-7xl font-black italic text-white mb-6 tracking-tighter drop-shadow-2xl flex flex-col md:flex-row justify-center items-center gap-3 notranslate">
+                    <h2 className="text-4xl md:text-5xl lg:text-7xl font-black italic text-white mb-6 tracking-tighter drop-shadow-2xl flex flex-col md:flex-row justify-center items-center gap-3 notranslate">
                         <SplitText delay={0}>¿Por qué</SplitText>
                         <span className="text-orange-600">
                             <SplitText delay={0.2}>SoloBasquet?</SplitText>

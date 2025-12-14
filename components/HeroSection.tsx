@@ -75,13 +75,13 @@ export function HeroSection({ isLoading }: { isLoading: boolean }) {
 
             {/* Contenido Centrado */}
             <div className="container relative z-20 mx-auto px-4 flex flex-col items-center justify-center text-center space-y-8">
-                <h1 className="text-7xl md:text-9xl font-black tracking-tighter text-white drop-shadow-2xl overflow-visible notranslate">
+                <h1 className="text-5xl md:text-7xl lg:text-9xl font-black tracking-tighter text-white drop-shadow-2xl overflow-visible notranslate">
                     <SplitText delay={0.1} stagger={0.04} x={0} y={80} start={!isLoading}>
                         SoloBasquet
                     </SplitText>
                 </h1>
 
-                <p className="max-w-2xl text-xl md:text-2xl text-gray-200 font-light tracking-wide drop-shadow-md">
+                <p className="max-w-2xl text-lg md:text-2xl text-gray-200 font-light tracking-wide drop-shadow-md px-4">
                     La casa del baloncesto moderno.
                 </p>
 

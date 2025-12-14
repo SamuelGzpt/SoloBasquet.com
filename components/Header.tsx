@@ -126,46 +126,43 @@ export function Header({ isLoading }: { isLoading: boolean }) {
                         window.history.pushState({}, '', '/');
                     }}
                 >
-                    <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-white drop-shadow-md cursor-pointer overflow-visible">
+                    <h1 className="text-xl md:text-3xl font-black tracking-tighter text-white drop-shadow-md cursor-pointer overflow-visible">
                         <span className="sr-only">SoloBasquet</span>
                         <LogoText isLoading={isLoading} />
                     </h1>
                 </Link>
 
                 <nav>
-                    <ul className="flex gap-6 items-center">
-                        {navLinks.map((link) => (
-                            <li key={link.name}>
-                                <Link
-                                    to={link.href}
-                                    className="relative group block px-2 py-1 overflow-hidden"
-                                    onClick={(e) => {
-                                        if (link.href.startsWith('/#') || link.href.startsWith('#')) {
-                                            if (window.location.pathname === '/') {
-                                                e.preventDefault();
-                                                const id = link.href.split('#')[1];
-                                                const element = document.getElementById(id);
-                                                if (element) {
-                                                    const navHeight = 80; // Approximate header height causing overlap? header is fixed.
-                                                    // use scrollTo with offset if needed, or scrollIntoView
-                                                    // element.scrollIntoView({ behavior: 'smooth' });
-                                                    // Better with offset for fixed header:
-                                                    const y = element.getBoundingClientRect().top + window.scrollY - 100;
-                                                    window.scrollTo({ top: y, behavior: 'smooth' });
+                    <ul className="flex gap-4 md:gap-6 items-center">
+                        {/* Enlaces de Navegación (Ocultos en móvil por ahora para evitar overflow) */}
+                        <div className="hidden md:flex gap-6 items-center">
+                            {navLinks.map((link) => (
+                                <li key={link.name}>
+                                    <Link
+                                        to={link.href}
+                                        className="relative group block px-2 py-1 overflow-hidden"
+                                        onClick={(e) => {
+                                            if (link.href.startsWith('/#') || link.href.startsWith('#')) {
+                                                if (window.location.pathname === '/') {
+                                                    e.preventDefault();
+                                                    const id = link.href.split('#')[1];
+                                                    const element = document.getElementById(id);
+                                                    if (element) {
+                                                        const y = element.getBoundingClientRect().top + window.scrollY - 100;
+                                                        window.scrollTo({ top: y, behavior: 'smooth' });
+                                                    }
                                                 }
                                             }
-                                            // If not on home, let standard Link behavior handle it (it goes to /#noticias)
-                                            // Ideally, App.tsx should handle scrolling on load if hash presents.
-                                        }
-                                    }}
-                                >
-                                    <span className="relative z-10 text-sm md:text-base font-medium text-gray-400 transition-colors duration-300 group-hover:text-white tracking-wide notranslate">
-                                        {link.name}
-                                    </span>
-                                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-orange-600 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
-                                </Link>
-                            </li>
-                        ))}
+                                        }}
+                                    >
+                                        <span className="relative z-10 text-sm md:text-base font-medium text-gray-400 transition-colors duration-300 group-hover:text-white tracking-wide notranslate">
+                                            {link.name}
+                                        </span>
+                                        <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-orange-600 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
+                                    </Link>
+                                </li>
+                            ))}
+                        </div>
 
                         {/* Selector de Idioma */}
                         <li className="flex items-center">

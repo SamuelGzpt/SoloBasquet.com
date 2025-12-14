@@ -75,6 +75,9 @@ export function NewsSection() {
     const { contextSafe } = useGSAP({ scope: containerRef });
 
     const onMouseMove = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
+        // Disable on touch devices or small screens
+        if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 1024) return;
+
         const card = e.currentTarget;
         const rect = card.getBoundingClientRect();
 
@@ -152,7 +155,7 @@ export function NewsSection() {
             <div className="container mx-auto relative z-10 max-w-[1920px]">
                 {/* Título con animación SplitText */}
                 <div className="text-center mb-20 overflow-hidden">
-                    <h3 className="text-6xl md:text-8xl font-black tracking-tighter text-white drop-shadow-2xl flex justify-center gap-4 notranslate">
+                    <h3 className="text-4xl md:text-6xl lg:text-8xl font-black tracking-tighter text-white drop-shadow-2xl flex justify-center gap-4 notranslate">
                         <SplitText delay={0.2}>ULTIMAS</SplitText>
                         <span className="text-orange-600">
                             <SplitText delay={0.4}>NOTICIAS</SplitText>
@@ -170,7 +173,7 @@ export function NewsSection() {
                             className="block"
                         >
                             <div
-                                className="news-card relative h-[420px] bg-gradient-to-br from-zinc-800 via-zinc-900 to-black border border-white/10 rounded-2xl overflow-hidden cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.5)] will-change-transform"
+                                className="news-card relative h-[420px] bg-gradient-to-br from-zinc-800 via-zinc-900 to-black border border-white/10 rounded-2xl overflow-hidden cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.5)] will-change-transform touch-none"
                                 onMouseMove={onMouseMove}
                                 onMouseEnter={onMouseEnter}
                                 onMouseLeave={onMouseLeave}
