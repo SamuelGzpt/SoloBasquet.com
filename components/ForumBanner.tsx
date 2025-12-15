@@ -37,18 +37,27 @@ export function ForumBanner() {
     return (
         <section ref={containerRef} className="py-16 relative overflow-hidden">
             {/* Fondo Unificado (Continuación del fluido) */}
-            <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
-                {/* Blobs que continúan la estética */}
-                {/* Top blob matches Features bottom blob style */}
-                <div className="absolute -top-[30%] left-[10%] w-[60%] h-[60%] rounded-full bg-indigo-800/30 blur-[120px] mix-blend-screen" />
-                <div className="absolute top-[20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-900/20 blur-[100px] mix-blend-screen" />
-                <div className="absolute bottom-[-20%] left-[30%] w-[40%] h-[40%] rounded-full bg-blue-900/30 blur-[100px] mix-blend-screen" />
+            {/* Fondo Unificado (Start of the unified section) */}
+            <div className="absolute inset-0 z-0 bg-[#050505]">
+                {/* Transición Suave Superior (Conecta con NewsSection) */}
+                <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black via-black/60 to-transparent z-10" />
 
-                {/* Brillos */}
-                <div className="absolute top-[10%] right-[30%] w-[20%] h-[20%] rounded-full bg-white/5 blur-[60px] mix-blend-overlay" />
+                {/* Blobs fluidos - White & Purple Theme */}
 
-                {/* Ruido */}
-                <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
+                {/* Top Left - Purple Glow */}
+                <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[70%] rounded-full bg-purple-700/30 blur-[100px] mix-blend-screen" />
+
+                {/* Top Right - White/Lavender Mist */}
+                <div className="absolute top-[0%] right-[0%] w-[60%] h-[60%] rounded-full bg-purple-300/10 blur-[90px] mix-blend-screen" />
+
+                {/* Bottom Center - Connecting to Features */}
+                <div className="absolute -bottom-[20%] left-[20%] w-[60%] h-[50%] rounded-full bg-white/5 blur-[100px] mix-blend-overlay" />
+
+                {/* Vibrant Accent */}
+                <div className="absolute top-[30%] left-[30%] w-[40%] h-[40%] rounded-full bg-fuchsia-600/20 blur-[120px] mix-blend-screen" />
+
+                {/* Texture */}
+                <div className="absolute inset-0 opacity-15 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
             </div>
 
             <div className="container mx-auto px-4 relative z-20">
