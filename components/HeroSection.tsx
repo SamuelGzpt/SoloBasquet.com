@@ -7,7 +7,7 @@ import { SplitText } from './SplitText';
 import landingImg from '../style/images/landing.jpg';
 
 function AnimatedBorderButton() {
-    const buttonRef = useRef<HTMLAnchorElement>(null);
+    const buttonRef = useRef<HTMLDivElement>(null);
 
     // Animación hover por clases CSS
     // Mantenemos GSAP por si acaso
@@ -18,10 +18,16 @@ function AnimatedBorderButton() {
     }, []);
 
     return (
-        <a
+        <div
             ref={buttonRef}
-            href="#noticias"
-            className="mt-8 group relative inline-block p-[3px] overflow-hidden"
+            onClick={(e) => {
+                e.preventDefault();
+                const newsSection = document.querySelector('#noticias');
+                if (newsSection) {
+                    newsSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }}
+            className="mt-8 group relative inline-block p-[3px] overflow-hidden cursor-pointer"
             style={{ borderRadius: '9999px' }}
         >
             {/* Borde Gradiente Rotatorio - Acelerado por GPU */}
@@ -45,7 +51,7 @@ function AnimatedBorderButton() {
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
                 </span>
             </div>
-        </a>
+        </div>
     );
 }
 

@@ -29,22 +29,43 @@ interface RapidAPIArticle {
 }
 
 export async function fetchNewsAPI(): Promise<NewsArticle[]> {
-  const apiKey = import.meta.env.VITE_NEWS_API_KEY;
-  const baseUrl = import.meta.env.VITE_NEWS_API_URL;
-
-  if (!apiKey || !baseUrl) return [];
-
   try {
-    const url = new URL(baseUrl);
-    url.searchParams.append("q", "NBA OR basketball OR baloncesto");
-    url.searchParams.append("language", "en");
-    url.searchParams.append("sortBy", "publishedAt");
-    url.searchParams.append("apiKey", apiKey);
+    let data: NewsAPIResponse;
 
-    const response = await fetch(url.toString());
-    if (!response.ok) throw new Error(response.statusText);
-    const data: NewsAPIResponse = await response.json();
+    // CHECK: Are we in Production?
+    // In Vercel (Production), we MUST use the Proxy (/api/news) to avoid CORS/Free-Tier blocks.
+    // In Local (Development), we can use the direct Key for simplicity (or the proxy if using 'vercel dev').
+    const isProduction = import.meta.env.PROD;
+
+    if (isProduction) {
+      // --- PRODUCTION: Use Proxy ---
+      const response = await fetch('/api/news');
+      if (!response.ok) throw new Error(`Proxy Error: ${response.statusText}`);
+      data = await response.json();
+
+    } else {
+      // --- DEVELOPMENT: Use Direct Request (Legacy method) ---
+      const apiKey = import.meta.env.VITE_NEWS_API_KEY;
+      const baseUrl = import.meta.env.VITE_NEWS_API_URL;
+
+      if (!apiKey || !baseUrl) {
+        console.warn("Missing VITE_NEWS_API_KEY for local development");
+        return [];
+      }
+
+      const url = new URL(baseUrl);
+      url.searchParams.append("q", "NBA OR basketball OR baloncesto");
+      url.searchParams.append("language", "en");
+      url.searchParams.append("sortBy", "publishedAt");
+      url.searchParams.append("apiKey", apiKey);
+
+      const response = await fetch(url.toString());
+      if (!response.ok) throw new Error(response.statusText);
+      data = await response.json();
+    }
+
     return data.status === "ok" ? data.articles : [];
+
   } catch (error) {
     console.error("NewsAPI Error:", error);
     return [];
@@ -116,24 +137,13 @@ export async function fetchNews(): Promise<NewsArticle[]> {
   ];
 
   const filteredNews = allNews.filter(article => {
-    // 1. Strict Image Validation
-    if (!article.urlToImage || typeof article.urlToImage !== 'string' || article.urlToImage.trim() === '') return false;
+    // 1. Basic URL validity check (optional, but good to keep it basic)
+    // We allow missing images now, as the UI handles placeholders.
+    // if (!article.urlToImage) { /* allow */ }
 
-    // Check basic URL validity
-    const imgLower = article.urlToImage.toLowerCase();
-
-    // Must be a valid URL starting with http/https and have reasonable length
-    if (!imgLower.startsWith('http://') && !imgLower.startsWith('https://')) return false;
-    if (imgLower.length < 15) return false; // Minimum valid URL length
-
-    // 2. Filter out bad images, placeholders, logos, and generic identifiers
-    const badImageTerms = [
-      'yahoo.com', 'placeholder', 'default', 'logo', 'icon', 'blank',
-      'empty', 'unavailable', 'not_found', 'error', 'pixel', '1x1',
-      'null', 'undefined', 'assets.espn.go.com/i/teamlogos' // ESPN logos often used as invalid article images
-    ];
-
-    if (badImageTerms.some(term => imgLower.includes(term))) return false;
+    // 2. Filter out Known Bad Placeholders ONLY if we really want to exclude the article,
+    // but better to just show the article with a default image.
+    // So we skip the strict "Bad Image Terms" filter that drops the article entirely.
 
     // 3. Filter out Video content (YouTube, etc)
     if (article.url.includes('youtube.com') || article.url.includes('youtu.be') || article.url.includes('vimeo.com')) return false;

@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Star } from 'lucide-react';
 import { SplitText } from './SplitText';
 import videoBg from '../style/videos/otro.mp4';
-import { FooterHalo } from './FooterHalo';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,7 +65,7 @@ export function CallToAction() {
                 <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-20 pointer-events-none" />
             </div>
 
-            <FooterHalo />
+
 
             {/* Sin contenedor de rastro local */}
 

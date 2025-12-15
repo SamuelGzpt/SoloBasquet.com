@@ -3,7 +3,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Shield, Zap, Globe, Trophy } from 'lucide-react';
-import videoBg from '../style/videos/features.mp4';
+
 import { SplitText } from './SplitText';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -97,24 +97,26 @@ export function Features() {
             id="features"
             className="relative py-24 px-4 overflow-hidden"
         >
-            {/* Video de fondo */}
-            <div className="absolute inset-0 z-0 overflow-hidden">
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover rotate-180"
-                >
-                    <source src={videoBg} type="video/mp4" />
-                </video>
-                {/* Capa mate / vidrio esmerilado - opacidad reducida */}
-                <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px] z-10" />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/30 z-10" />
+            {/* Fondo Unificado (Purple/White/Blue Fluid Gradient) */}
+            <div className="absolute inset-0 z-0 overflow-hidden bg-[#0a0a0a]">
+                {/* Blobs fluidos de fondo */}
+                <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] rounded-full bg-purple-900/30 blur-[120px] mix-blend-screen" />
+                <div className="absolute top-[20%] right-[0%] w-[60%] h-[60%] rounded-full bg-blue-900/20 blur-[120px] mix-blend-screen" />
+                <div className="absolute -bottom-[20%] left-[20%] w-[50%] h-[50%] rounded-full bg-indigo-800/30 blur-[100px] mix-blend-screen" />
 
-                {/* Gradientes fluidos */}
-                <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-white via-purple-200/80 to-transparent z-20 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-black via-purple-300/30 via-purple-200/20 to-transparent z-20 pointer-events-none" />
+                {/* Toques de blanco/crema para el brillo "sedoso" */}
+                <div className="absolute top-[40%] left-[40%] w-[30%] h-[30%] rounded-full bg-white/5 blur-[80px] mix-blend-overlay" />
+
+                {/* Ruido sutil para textura */}
+                <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
+
+                {/* Gradientes de transición para unir con ForumBanner */}
+                {/* El fondo debe continuar visualmente hacia abajo */}
+                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-0" />
+                {/* Nota: Eliminamos la opacidad negra dura abajo para que se funda, 
+                    o usamos un gradiente que coincida con el inicio del siguiente componente. 
+                    Si queremos que se vean "juntos", ambos deben compartir el mismo color de fondo base (#0a0a0a).
+                */}
             </div>
 
             {/* Sin contenedor .trail-blob local */}

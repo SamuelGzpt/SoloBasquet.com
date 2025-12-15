@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useAuth } from '../contexts/AuthContext';
 import { MessageSquare, Users, TrendingUp } from 'lucide-react';
-import videoBg from '../style/videos/features.mp4';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,26 +36,20 @@ export function ForumBanner() {
 
     return (
         <section ref={containerRef} className="py-16 relative overflow-hidden">
-            {/* Video de Fondo */}
-            <div className="absolute inset-0 z-0">
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                >
-                    <source src={videoBg} type="video/mp4" />
-                </video>
-                {/* Superposición de video */}
-                <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]"></div>
+            {/* Fondo Unificado (Continuación del fluido) */}
+            <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
+                {/* Blobs que continúan la estética */}
+                {/* Top blob matches Features bottom blob style */}
+                <div className="absolute -top-[30%] left-[10%] w-[60%] h-[60%] rounded-full bg-indigo-800/30 blur-[120px] mix-blend-screen" />
+                <div className="absolute top-[20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-900/20 blur-[100px] mix-blend-screen" />
+                <div className="absolute bottom-[-20%] left-[30%] w-[40%] h-[40%] rounded-full bg-blue-900/30 blur-[100px] mix-blend-screen" />
+
+                {/* Brillos */}
+                <div className="absolute top-[10%] right-[30%] w-[20%] h-[20%] rounded-full bg-white/5 blur-[60px] mix-blend-overlay" />
+
+                {/* Ruido */}
+                <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
             </div>
-
-            {/* Gradiente superior con morado para unión perfecta */}
-            <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-black via-purple-300/30 via-purple-200/20 to-transparent z-10 pointer-events-none"></div>
-
-            {/* Gradiente inferior blanco/morado más brillante */}
-            <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-white via-purple-200/80 to-transparent z-10 pointer-events-none"></div>
 
             <div className="container mx-auto px-4 relative z-20">
                 <div className="relative group">
