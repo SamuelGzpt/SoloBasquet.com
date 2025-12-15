@@ -121,8 +121,14 @@ export async function fetchRapidAPI(): Promise<NewsArticle[]> {
 
 export async function fetchNews(): Promise<NewsArticle[]> {
   const [newsApiArticles, rapidApiArticles] = await Promise.all([
-    fetchNewsAPI(),
-    fetchRapidAPI()
+    fetchNewsAPI().catch(err => {
+      console.warn("NewsAPI failed (using fallback):", err);
+      return [];
+    }),
+    fetchRapidAPI().catch(err => {
+      console.warn("RapidAPI failed (using fallback):", err);
+      return [];
+    })
   ]);
 
   const allNews = [...newsApiArticles, ...rapidApiArticles];
