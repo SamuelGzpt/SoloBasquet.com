@@ -37,13 +37,25 @@ export async function fetchNewsAPI(): Promise<NewsArticle[]> {
 
     if (isProduction) {
       // --- PRODUCTION: Use Proxy ---
-      const response = await fetch('/api/news');
-      if (!response.ok) {
-        // Try to get error text from server
-        const errText = await response.text();
-        throw new Error(`Proxy Error (${response.status}): ${errText}`);
+      // Add 5s timeout to prevent infinite loading if proxy is dead/cold
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+      try {
+        const response = await fetch('/api/news', { signal: controller.signal });
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error(`Proxy Error (${response.status}): ${errText}`);
+        }
+        data = await response.json();
+      } catch (error: any) {
+        if (error.name === 'AbortError') {
+          throw new Error("Proxy Request Timed Out (5s)");
+        }
+        throw error;
       }
-      data = await response.json();
 
     } else {
       // --- DEVELOPMENT: Use Direct Request ---
