@@ -24,8 +24,9 @@ export function NewsSection() {
             try {
                 const articles = await fetchNews();
                 setNews(articles);
-            } catch (err) {
-                setError('Failed to load news');
+            } catch (err: any) {
+                console.error("Error loading news in UI:", err);
+                setError(err.message || 'Failed to load news');
             } finally {
                 setLoading(false);
             }
@@ -128,7 +129,12 @@ export function NewsSection() {
     });
 
     if (loading) return <div className="min-h-screen bg-black flex items-center justify-center text-white">Loading news...</div>;
-    if (error) return <div className="min-h-screen bg-black flex items-center justify-center text-red-500">{error}</div>;
+    if (error) return (
+        <div className="min-h-screen bg-black flex flex-col items-center justify-center text-red-500 p-4 text-center">
+            <h2 className="text-2xl font-bold mb-2">Error Loading News</h2>
+            <p className="max-w-md bg-red-900/20 p-4 rounded border border-red-500/50">{error}</p>
+        </div>
+    );
     if (!loading && news.length === 0) return <div className="min-h-screen bg-black flex items-center justify-center text-white">No news articles found.</div>;
 
     return (

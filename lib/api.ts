@@ -33,24 +33,25 @@ export async function fetchNewsAPI(): Promise<NewsArticle[]> {
     let data: NewsAPIResponse;
 
     // CHECK: Are we in Production?
-    // In Vercel (Production), we MUST use the Proxy (/api/news) to avoid CORS/Free-Tier blocks.
-    // In Local (Development), we can use the direct Key for simplicity (or the proxy if using 'vercel dev').
     const isProduction = import.meta.env.PROD;
 
     if (isProduction) {
       // --- PRODUCTION: Use Proxy ---
       const response = await fetch('/api/news');
-      if (!response.ok) throw new Error(`Proxy Error: ${response.statusText}`);
+      if (!response.ok) {
+        // Try to get error text from server
+        const errText = await response.text();
+        throw new Error(`Proxy Error (${response.status}): ${errText}`);
+      }
       data = await response.json();
 
     } else {
-      // --- DEVELOPMENT: Use Direct Request (Legacy method) ---
+      // --- DEVELOPMENT: Use Direct Request ---
       const apiKey = import.meta.env.VITE_NEWS_API_KEY;
       const baseUrl = import.meta.env.VITE_NEWS_API_URL;
 
       if (!apiKey || !baseUrl) {
-        console.warn("Missing VITE_NEWS_API_KEY for local development");
-        return [];
+        throw new Error("Configuration Error: VITE_NEWS_API_KEY or VITE_NEWS_API_URL is missing in .env");
       }
 
       const url = new URL(baseUrl);
@@ -60,15 +61,24 @@ export async function fetchNewsAPI(): Promise<NewsArticle[]> {
       url.searchParams.append("apiKey", apiKey);
 
       const response = await fetch(url.toString());
-      if (!response.ok) throw new Error(response.statusText);
+      if (!response.ok) {
+        if (response.status === 401) throw new Error("NewsAPI: Invalid API Key (401)");
+        if (response.status === 429) throw new Error("NewsAPI: Rate Limited (429)");
+        throw new Error(`NewsAPI Error: ${response.status} ${response.statusText}`);
+      }
       data = await response.json();
     }
 
-    return data.status === "ok" ? data.articles : [];
+    if (data.status === "error") {
+      throw new Error(`NewsAPI returned error status: ${JSON.stringify(data)}`);
+    }
 
-  } catch (error) {
-    console.error("NewsAPI Error:", error);
-    return [];
+    return data.articles || [];
+
+  } catch (error: any) {
+    console.error("fetchNewsAPI Failed:", error);
+    // Rethrow so the UI knows it failed.
+    throw error;
   }
 }
 
@@ -194,8 +204,11 @@ export async function fetchNews(): Promise<NewsArticle[]> {
     const isExcluded = excludedTerms.some(term => text.includes(term));
     if (isExcluded) return false;
 
-    // 5. Basketball Relevance Check
-    return keywords.some(keyword => text.includes(keyword));
+    // 5. Basketball Relevance Check - REMOVED/RELAXED
+    // The API query "NBA OR basketball" is usually enough.
+    // Double-filtering here often results in 0 articles if the API returns short descriptions.
+    // return keywords.some(keyword => text.includes(keyword)); 
+    return true;
   });
 
   return filteredNews.sort((a, b) =>
