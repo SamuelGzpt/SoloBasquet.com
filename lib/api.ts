@@ -163,46 +163,17 @@ export async function fetchNews(): Promise<NewsArticle[]> {
     // 4. Build text corpus for analysis (Title + Desc + Content + Source)
     const text = `${article.title} ${article.description} ${article.content} ${article.source.name}`.toLowerCase();
 
-    // 4. Enhanced Exclusion List (MMA, Boxing, Business, Gambling, Non-Basketball Sports)
-    const excludedTerms = [
-      // Rappers/Musicians
-      'youngboy',
-
-      // American Football
-      'nfl', 'football', 'quarterback', 'touchdown', 'super bowl',
-
-      // Gambling
-      'gambling', 'betting', 'casino', 'apuesta', 'lottery', 'odds', 'wager', 'sportsbook',
-
-      // MMA - Comprehensive List
-      'mma', 'ufc', 'bellator', 'cage', 'octagon', 'mixed martial arts',
-      'mcgregor', 'conor mcgregor', 'khabib', 'nurmagomedov', 'adesanya', 'jones', 'jon jones',
-      'rousey', 'miocic', 'ngannou', 'masvidal', 'diaz', 'pettis', 'ferguson', 'poirier',
-      'holloway', 'volkanovski', 'cejudo', 'figueiredo', 'moreno', 'yan', 'sterling',
-      'submission', 'knockout', 'ko/tko', 'tapout', 'ground and pound', 'rear naked choke',
-
-      // Boxing
-      'boxing', 'boxer', 'heavyweight', 'lightweight', 'welterweight', 'middleweight',
-      'tyson fury', 'canelo', 'mayweather', 'pacquiao', 'joshua', 'wilder', 'usyk',
-      'uppercut', 'jab', 'hook', 'ring', 'rounds', 'title fight', 'championship belt',
-
-      // Wrestling
-      'wwe', 'wrestling', 'wrestler', 'wrestlemania', 'smackdown', 'raw',
-
-      // Other Combat Sports
-      'fighter', 'fight night', 'combat sports', 'martial arts', 'kickboxing', 'muay thai',
-
-      // Business/Finance
-      'business', 'finance', 'stock', 'market', 'economy', 'money', 'merger', 'acquisition',
-      'earnings', 'revenue', 'profit', 'shares', 'wall street', 'nasdaq', 'dow jones',
-
-      // Other Sports
-      'cricket', 'rugby', 'tennis', 'golf', 'baseball', 'mlb', 'soccer', 'fifa', 'premier league',
-      'champions league', 'nhl', 'hockey', 'puck', 'goalkeeper', 'striker'
-    ];
-
+    // 4. Enhanced Exclusion List - REMOVED/RELAXED
+    // We are temporarily disabling this to ensure we get ANY news.
+    // Sometimes valid sports news mentions "contracts" (business) or "odds" (gambling) and gets hidden.
+    /*
+    const excludedTerms = [ ... ];
     const isExcluded = excludedTerms.some(term => text.includes(term));
     if (isExcluded) return false;
+    */
+
+    // Only check for valid images now.
+
 
     // 5. Basketball Relevance Check - REMOVED/RELAXED
     // The API query "NBA OR basketball" is usually enough.
